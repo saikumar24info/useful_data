@@ -1,0 +1,57 @@
+ 
+ C:\Program Files\Java\jre1.8.0_181\bin>keytool -list -v -alias androiddebugkey -keystore "C:\Users\Chaithanya\.android\debug.keystore"
+ password: android
+ MD5:  E2:18:80:A1:91:38:16:1B:4F:F7:4B:D7:BE:CE:CB:4E
+ SHA1: 1C:7C:D9:27:22:24:0F:A2:8C:D2:FE:A7:91:D1:F5:03:49:AB:04:DC
+ SHA256: 42:EF:B7:54:9E:F6:F4:5C:45:E5:07:43:7A:79:65:96:67:E9:75:81:60:FC:1D:60:37:8F:16:96:8C:E3:C5:63
+
+
+
+
+ keytool -exportcert -alias androiddebugkey -keystore "C:\Users\Chaithanya\.android\debug.keystore" | "E:\openssl\bin\openssl" sha1 -binary | "E:\openssl\bin\openssl" base64
+ keytool -exportcert -alias androiddebugkey -keystore "C:\Users\Chaithanya\.android\debug.keystore" | "E:\newssl\bin\openssl" sha1 -binary | "E:\newssl\bin\openssl" base64
+      
+ VzSiQcXRmi2kyjzcA+mYLEtbGVs=
+
+
+
+
+
+
+cupertino_icons: ^1.0.2
+  firebase_auth: ^3.3.4
+  firebase_core: ^1.10.6
+  firebase_storage: ^10.2.4
+firebase_messaging: ^11.2.4
+ flutter_local_notifications: ^9.1.5
+ provider: ^6.0.2
+
+
+
+
+FIREBASE RULES:
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+       allow read, write: if true;
+    }
+
+  }
+
+}
+
+
+server key
+AAAAjXNnJ80:APA91bGYd4SKyx6NRjsqGyPCRSfk8uQAhUDhd2p7EIH3GnqUw84sGAaQsjLWM0SwgQ4gGvw-9hIuvQucZuAdXRT1R2ZGR6lbpg9ruLSlZPqbS9Rdx5cPk_cikPpR69PpYaTMtlZi-joc
+
+
+1.To get deleted data from git hub 
+ git reset --hard
+git log --diff-filter=D --summary
+
+git reset --hard main@{1}
+
+git reset --hard master@{5.days.ago}
+
+ git reset --hard commitid
