@@ -1,0 +1,117 @@
+import 'package:intl/intl.dart'; // for date format
+import 'package:intl/date_symbol_data_local.dart'; // for other locales
+
+void main() {
+  var now = DateTime.now();
+  print(DateFormat().format(now)); // This will return date using the default locale
+  print(DateFormat('yyyy-MM-dd hh:mm:ss').format(now));
+  print(DateFormat.yMMMMd().format(now)); // print long date 
+  print(DateFormat.yMd().format(now)); // print short date 
+  print(DateFormat.jms().format(now)); // print time 
+
+  initializeDateFormatting('es'); // This will initialize Spanish locale
+  print(DateFormat.yMMMMd('es').format(now)); // print long date in Spanish format
+  print(DateFormat.yMd('es').format(now)); // print short date in Spanish format
+  print(DateFormat.jms('es').format(now)); // print time in Spanish format
+}
+
+
+Result:
+
+May 31, 2020 5:41:42 PM
+2020-05-31 05:41:42
+May 31, 2020
+5/31/2020
+5:41:42 PM
+31 de mayo de 2020
+31/5/2020
+17:41:42
+
+
+
+Programming for date select in dialogbox
+############################################
+
+ var finalDate;
+var currentDate = DateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+    var now = DateTime.now();
+    finalDate = DateFormat.yMMMMd().format(now);
+  }
+
+    Future<void> _selectDate(BuildContext context) async {
+      final DateTime? pickedDate = await showDatePicker(
+          context: context,
+          initialDate: currentDate,
+          firstDate: DateTime(2022, 1, 25),
+          lastDate: DateTime(2022, 2, 28));
+      if (pickedDate != null && pickedDate != currentDate) {
+        setState(() {
+          currentDate = pickedDate;
+        });
+      }
+      finalDate = "${currentDate.day}/${currentDate.month}/${currentDate.year}";
+    }
+############################################################
+
+
+
+ final now = new DateTime.now();
+ String formatter = DateFormat('yMd').format(now);// 28/03/2020
+
+/// Examples Using the US Locale:
+///      Pattern                         Result
+///      ----------------                -------
+      new DateFormat.yMd()             -> 7/10/1996
+      new DateFormat('yMd')            -> 7/10/1996
+      new DateFormat.yMMMMd('en_US')   -> July 10, 1996
+      new DateFormat.jm()              -> 5:08 PM
+      new DateFormat.yMd().add_jm()    -> 7/10/1996 5:08 PM
+      new DateFormat.Hm()              -> 17:08 // force 24 hour time
+
+ICU Name                   Skeleton
+ --------                   --------
+ DAY                          d
+ ABBR_WEEKDAY                 E
+ WEEKDAY                      EEEE
+ ABBR_STANDALONE_MONTH        LLL
+ STANDALONE_MONTH             LLLL
+ NUM_MONTH                    M
+ NUM_MONTH_DAY                Md
+ NUM_MONTH_WEEKDAY_DAY        MEd
+ ABBR_MONTH                   MMM
+ ABBR_MONTH_DAY               MMMd
+ ABBR_MONTH_WEEKDAY_DAY       MMMEd
+ MONTH                        MMMM
+ MONTH_DAY                    MMMMd
+ MONTH_WEEKDAY_DAY            MMMMEEEEd
+ ABBR_QUARTER                 QQQ
+ QUARTER                      QQQQ
+ YEAR                         y
+ YEAR_NUM_MONTH               yM
+ YEAR_NUM_MONTH_DAY           yMd
+ YEAR_NUM_MONTH_WEEKDAY_DAY   yMEd
+ YEAR_ABBR_MONTH              yMMM
+ YEAR_ABBR_MONTH_DAY          yMMMd
+ YEAR_ABBR_MONTH_WEEKDAY_DAY  yMMMEd
+ YEAR_MONTH                   yMMMM
+ YEAR_MONTH_DAY               yMMMMd
+ YEAR_MONTH_WEEKDAY_DAY       yMMMMEEEEd
+ YEAR_ABBR_QUARTER            yQQQ
+ YEAR_QUARTER                 yQQQQ
+ HOUR24                       H
+ HOUR24_MINUTE                Hm
+ HOUR24_MINUTE_SECOND         Hms
+ HOUR                         j
+ HOUR_MINUTE                  jm
+ HOUR_MINUTE_SECOND           jms
+ HOUR_MINUTE_GENERIC_TZ       jmv
+ HOUR_MINUTE_TZ               jmz
+ HOUR_GENERIC_TZ              jv
+ HOUR_TZ                      jz
+ MINUTE                       m
+ MINUTE_SECOND                ms
+ SECOND                       s
