@@ -1,0 +1,752 @@
+Bottom Navigation Bar Example
+
+
+import 'package:autocomplete_textfield/autocomplete_textfield.dart';
+import 'package:flutter/material.dart';
+
+void main() => runApp(new MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      title: 'Auto Complete TextField Demo',
+      theme: new ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: new MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  List<Widget> pages = [new FirstPage(), new SecondPage()];
+  int selectedIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      bottomNavigationBar: new BottomNavigationBar(
+        items: [
+          new BottomNavigationBarItem(
+              icon: new Center(child: new Text("1")),
+              title: new Text("Simple Use")),
+          new BottomNavigationBarItem(
+              icon: new Center(child: new Text("2")),
+              title: new Text("Complex Use")),
+        ],
+        onTap: (index) => setState(() {
+              selectedIndex = index;
+            }),
+        currentIndex: selectedIndex,
+      ),
+      body: pages[selectedIndex],
+    );
+  }
+}
+
+
+
+1.TabBar 
+to use this use state<MyApp> with TickerProviderMixin
+TabController _tabController=TabController(initialIndex:0,vsync:this,length:2),
+  _controller.animateTo(_currentTabIndex);
+
+DefaultTabController.of(context).animateTo(1);
+
+
+
+2.App launcher Icon
+
+flutter_icons:    
+ android: "launcher_icon"    
+ ios: true    
+ image_path: "assets/images/logo_icon.jpg"
+
+run: flutter pub run flutter_launcher_icons:main
+
+
+
+
+3.  App  Icon Name setting
+
+Android
+Open AndroidManifest.xml (located at android/app/src/main)
+
+<application
+    android:label="App Name" ...> // Your app name here
+iOS
+Open info.plist (located at ios/Runner)
+
+<key>CFBundleName</key>
+<string>App Name</string> // Your app name here
+Don't forget to run
+
+flutter clean
+
+
+
+4. Getting perticular data from firestore 
+
+ FirebaseFirestore.instance
+        .collection(from)
+        .get()
+        .then((QuerySnapshot querySnapshot) {
+      querySnapshot.docs.forEach((doc) {
+        data = doc['booked_seats'];
+      });
+    });
+
+
+
+5. AppBar 
+
+home: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(120.0),
+          child: AppBar(),
+
+ appBar: PreferredSize(
+        preferredSize: Size.fromHeight(responsive.height(context) / 20),
+        child: SimpleAppBar(
+          label: 'Tus Favoritos',
+          witdh: responsive.width(context) / 4.7,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+
+
+6.If no data in firebase
+
+  if (snapshot.data!.docs.length==0) {
+              return Center(
+                  child: Text('No buses are available in this route',style: TextStyle(fontWeight: FontWeight.bold),));
+            }
+
+
+7.help screen code for infoane bus app
+
+ SingleChildScrollView(
+          child: Column(
+            children: [
+              Stack(children: [
+                Container(
+                  color: Colors.red[400],
+                  height: 30,
+                  width: double.infinity,
+                ),
+                SizedBox(
+                  width: 360,
+                  height: 250,
+                  child: Image.asset('assets/images/signin.png'),
+                ),
+                Positioned(
+                  top: 32,
+                  right: -4.75,
+                  child: IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(Icons.cancel)),
+                ),
+              ]),
+              Padding(
+                padding: EdgeInsets.all(10),
+                child: Column(children: [
+                  Text(
+                    ' Verify your details\nwith mobile number',
+                    style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 10),
+                  TextFormField(
+                    onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MobileLoginScreen())),
+                    readOnly: true,
+                    cursorColor: Colors.red[400],
+                    decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        hintText: '  MobileNumber',
+                        prefix: Text('+91'),
+                        prefixIcon: Icon(Icons.arrow_drop_down)),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'OR',
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Column(children: [
+                          GestureDetector(
+                            child: SizedBox(
+                              height: 60,
+                              width: 60,
+                              child: CircleAvatar(
+                                backgroundColor: Colors.white,
+                                child: Image.asset('assets/images/google1.png'),
+                              ),
+                            ),
+                            onTap: () {
+                              signup(context);
+                            },
+                          ),
+                          TextButton(
+                              onPressed: () => signup(context),
+                              child: Text('   Google\nverification')),
+                        ]),
+                        Column(children: [
+                          GestureDetector(
+                            onTap: () {},
+                            child: SizedBox(
+                              height: 60,
+                              width: 60,
+                              child: CircleAvatar(
+                                backgroundColor: Colors.white,
+                                child:
+                                    Image.asset('assets/images/facebook.png'),
+                              ),
+                            ),
+                          ),
+                          TextButton(
+                              onPressed: () {},
+                              child: Text(' Facebook\nverification'))
+                        ]),
+                      ]),
+                ]),
+              ),
+              Text(
+                'We will not post anything on your account',
+                style: TextStyle(color: Colors.black54),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              Padding(
+                padding: EdgeInsets.all(02),
+                child: Row(children: [
+                  Text(
+                    '              By logging in, you agree to our',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.black54),
+                  ),
+                  TextButton(
+                    onPressed: () {},
+                    child:
+                        Text('Terms and', style: TextStyle(color: Colors.blue)),
+                  ),
+                ]),
+              ),
+              Text(
+                'Conditions and Privacy Policy',
+                style: TextStyle(color: Colors.blue),
+              ),
+              SizedBox(height: 50),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
+  Future<void> signup(BuildContext context) async {
+    final GoogleSignIn googleSignIn = GoogleSignIn();
+    final GoogleSignInAccount? googleSignInAccount =
+        await googleSignIn.signIn();
+    if (googleSignInAccount != null) {
+      final GoogleSignInAuthentication googleSignInAuthentication =
+          await googleSignInAccount.authentication;
+      final AuthCredential authCredential = GoogleAuthProvider.credential(
+          idToken: googleSignInAuthentication.idToken,
+          accessToken: googleSignInAuthentication.accessToken);
+
+      // Getting users credential
+      UserCredential result = await auth.signInWithCredential(authCredential);
+      User? user = result.user;
+
+      if (result != null) {
+        Navigator.pushNamed(context, '/home');
+      }
+    }
+  }
+
+8.To avoid null safety
+
+flutter build apk --release --no-sound-null-safety 
+
+flutter build apk --split-per-abi --no-sound-null-safety 
+
+
+
+
+
+
+9.      // initialRoute: '/splash',
+      // routes: {
+      //   '/home': (context) => BusHomeScreen(
+      //         from: '',
+      //         to: '',
+      //       ),
+      //   '/ryde': (context) => RyderScreen(),
+      //   '/redrail': (context) => RailScreen(),
+      //   '/rPool': (context) => RpoolScreen(),
+      //   '/mybooking': (context) => MyBookingsScreen(),
+      //   '/help': (context) => HelpScreen(),
+      //   '/account': (context) => MyAccountScreen(),
+      //   '/splash': (context) => SpalshScreen(),
+      //   '/authpage': (context) => AuthenticationPage(),
+      // },
+      // home: Scaffold(
+      //   body: BusHomeScreen(from: '', to: ''),
+      // ),
+
+
+10.FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
+
+11.InfoaneBus BusesShowing screen
+
+  // body: StreamBuilder<QuerySnapshot>(
+      //   stream: _usersStream,
+      //   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+      //     if (snapshot.hasError) {
+      //       return Text(Strings.errorMsg);
+      //     }
+      //     if (snapshot.connectionState == ConnectionState.waiting) {
+      //       return Center(child: CircularProgressIndicator());
+      //     }
+      //     if (snapshot.data!.docs.length == 0) {
+      //       return Center(
+      //         child:
+      //             Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+      //           SizedBox(height: 80),
+      //           Image.network(Strings.errorImgUrl),
+      //           SizedBox(height: 10),
+      //           Text(Strings.noBusText, style: MyTextStyle.headline2),
+      //         ]),
+      //       );
+      //     }
+
+      //     return ListView(
+      //       children: snapshot.data!.docs.map((DocumentSnapshot document) {
+      //         Map<String, dynamic> data =
+      //             document.data()! as Map<String, dynamic>;
+      //         return InkWell(
+      //           child: Container(
+      //             decoration:
+      //                 BoxDecoration(border: Border.all(color: Colors.black12)),
+      //             height: 140,
+      //             child: Padding(
+      //               padding: EdgeInsets.all(10),
+      //               child: Column(
+      //                 children: [
+      //                   Row(
+      //                       mainAxisAlignment: MainAxisAlignment.start,
+      //                       children: [
+      //                         SizedBox(
+      //                           height: 25,
+      //                           width: 25,
+      //                           child: Image.network(Strings.building1Url),
+      //                         ),
+      //                         Text(Strings.text1RestStop,
+      //                             style: MyTextStyle.bodyline2),
+      //                       ]),
+      //                   SizedBox(height: 5),
+      //                   Row(
+      //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //                       children: [
+      //                         Text(data['Time'], style: MyTextStyle.headline4),
+      //                         Text('Price: ${data['Amount']} ?',
+      //                             style: MyTextStyle.headline4),
+      //                       ]),
+      //                   SizedBox(height: 5),
+      //                   Row(
+      //                     mainAxisAlignment: MainAxisAlignment.start,
+      //                     children: [
+      //                       SizedBox(
+      //                         child: Image.network(Strings.building2Url),
+      //                         height: 25,
+      //                         width: 25,
+      //                       ),
+      //                       SizedBox(width: 5),
+      //                       Text(data['Name'], style: MyTextStyle.headline4),
+      //                     ],
+      //                   ),
+      //                   SizedBox(height: 5),
+      //                   Row(children: [
+      //                     Text('Ac/Sleeper (2+1)',
+      //                         style: TextStyle(fontSize: 12)),
+      //                   ]),
+      //                   SizedBox(height: 5),
+      //                   Row(children: [
+      //                     Text(Strings.textReturnOffer,
+      //                         style:
+      //                             TextStyle(fontSize: 12, color: Colors.red)),
+      //                   ]),
+      //                 ],
+      //               ),
+      //             ),
+      //           ),
+      //           onTap: () {
+      //             Navigator.push(
+      //               context,
+      //               MaterialPageRoute(
+      //                 builder: (context) => BoardingScreen(
+      //                     from: from,
+      //                     to: to,
+      //                     id: data['id'],
+      //                     company: data['Name'],
+      //                     time: data['Time'],
+      //                     amount: data['Amount'],
+      //                     pickup: data['Pickup'],
+      //                     dropping: data['Dropping'],
+      //                     finalDate: finalDate,
+      //                     booked_seats: data['booked_seats'],
+      //                     docId: data['docId']),
+      //               ),
+      //             );
+      //           },
+      //         );
+      //       }).toList(),
+      //     );
+      //   },
+      // ),
+
+
+
+12.To get current state of application
+
+class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
+  AppLifecycleState _notification; 
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    setState(() {
+      _notification = state;
+    });
+  }
+
+  @override
+  initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    ...
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+}
+
+
+13.To get data from web socket 
+
+import 'package:flutter/material.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
+
+void main() => runApp(AppLifecycleReactor());
+
+class AppLifecycleReactor extends StatefulWidget {
+  const AppLifecycleReactor({Key? key}) : super(key: key);
+
+  @override
+  State<AppLifecycleReactor> createState() => _AppLifecycleReactorState();
+}
+
+class _AppLifecycleReactorState extends State<AppLifecycleReactor>
+    with WidgetsBindingObserver {
+  var _channel = WebSocketChannel.connect(Uri.parse('wss://ws.ifelse.io/'));
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance!.removeObserver(this);
+    super.dispose();
+  }
+
+  AppLifecycleState? _notification;
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        print("app in resumed");
+        break;
+      case AppLifecycleState.inactive:
+        _channel = WebSocketChannel.connect(Uri.parse('wss://ws.ifelse.io/'));
+        _channel.sink.add('App in Inactive state');
+        break;
+      case AppLifecycleState.paused:
+        print("app in paused");
+          _channel = WebSocketChannel.connect(Uri.parse('wss://ws.ifelse.io/'));
+        _channel.sink.add('Hii, welcome back.');
+        break;
+      case AppLifecycleState.detached:
+        print("app in detached");
+        break;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Text('Last notification: $_notification'),
+            Container(
+              child: StreamBuilder(
+                stream: _channel.stream,
+                builder: (context, snapshot) {
+                  return Text(snapshot.hasData ? '${snapshot.data}' : '');
+                },
+              ),
+            ),
+          ]),
+        ),
+      ),
+    );
+  }
+}
+
+14. Getting data from RestApi (json)
+
+// ignore_for_file: prefer_const_constructors, unnecessary_string_interpolations
+
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Json Example'),
+        ),
+        body: FutureBuilder(
+            future: ReadJsonData(),
+            builder: (context, data) {
+              if (data.hasError) {
+                return Center(child: Text("${data.error}"));
+              } else if (data.hasData) {
+                var items = data.data as List<Album>;
+                return ListView.builder(
+                    itemCount: items == null ? 0 : items.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        elevation: 5,
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                        child: Container(
+                          padding: EdgeInsets.all(8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                  width: 50,
+                                  height: 50,
+                                  child: Text(items[index].image)),
+                              Expanded(
+                                  child: Container(
+                                padding: EdgeInsets.only(bottom: 8),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.only(left: 8, right: 8),
+                                      child: Text(
+                                        items[index].name.toString(),
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding:
+                                          EdgeInsets.only(left: 8, right: 8),
+                                      child:
+                                          Text(items[index].price.toString()),
+                                    )
+                                  ],
+                                ),
+                              ))
+                            ],
+                          ),
+                        ),
+                      );
+                    });
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            }),
+      ),
+    );
+  }
+
+  Future<List<Album>> ReadJsonData() async {
+    final jsondata =
+        await http.get(Uri.parse('http://localhost:8000/getProducts'));
+    final list = json.decode(jsondata.body) as List<dynamic>;
+    return list.map((e) => Album.fromJson(e)).toList();
+  }
+}
+
+class Album {
+  String name;
+  int price;
+  String description;
+  String image;
+  Album(
+      {required this.name,
+      required this.price,
+      required this.description,
+      required this.image});
+
+  factory Album.fromJson(Map<String, dynamic> json) {
+    return Album(
+        name: json['name'],
+        price: json['price'],
+        description: json['description'],
+        image: json['image']);
+  }
+}
+
+15. colors Adjustments in color:Color
+
+100% � FF
+
+95% � F2
+
+90% � E6
+
+85% � D9
+
+80% � CC
+
+75% � BF
+
+70% � B3
+
+65% � A6
+
+60% � 99
+
+55% � 8C
+
+50% � 80
+
+45% � 73
+
+40% � 66
+
+35% � 59
+
+30% � 4D
+
+25% � 40
+
+20% � 33
+
+15% � 26
+
+10% � 1A
+
+5% � 0D
+
+0% � 00
+
+
+
+16.TubeSense
+
+   // ListView.builder(
+                    //   shrinkWrap: true,
+                    //   itemCount: 5,
+                    //   itemBuilder: ((context, index) => Column(children: [
+                    //         SizedBox(
+                    //           height: 35,
+                    //           child: Column(children: [
+                    //             Row(
+                    //               mainAxisAlignment:
+                    //                   MainAxisAlignment.spaceAround,
+                    //               children: [
+                    //                 Text('$index'),
+                    //                 Text('name'),
+                    //                 Text('jahflhfjlhfalhafaah'),
+                    //               ],
+                    //             ),
+                    //             Divider()
+                    //           ]),
+                    //         )
+                    //       ])),
+                    // ),
+
+
+17. flutter Localizations 
+
+ localizationsDelegates: [
+    GlobalMaterialLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+  ],
+  supportedLocales: [
+    Locale('en', ''), // English, no country code
+    Locale('es', ''), // Spanish, no country code
+  ],
+
+
+
+
+18.  Aftrer generating localizations
+
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+
+
